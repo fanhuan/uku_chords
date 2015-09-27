@@ -1,0 +1,84 @@
+---
+title       : uku chords
+subtitle    : demo
+author      : Heather
+job         : Madison Area Ukulele Initiative
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+logo        : MAUI.png
+---
+
+## Ukulele
+
+Ukulele is known as the small Hawaiian guitar. 
+
+A picture of my ukulele.
+
+---
+
+## The C Chord
+
+There are only four strings so ukulele is much easier to learn comparing to guitar. For example you only have to press the third fret on the first string to play the C major chord.
+
+```{r echo=FALSE}
+plotChord<-function(yourChord) {
+    
+    fret<-c(1,2,3,4,5,6,7)
+    strings<-c('G(4th)','C(3rd)','E(2nd)','A(1st)')
+    frame<-data.frame(Fret=numeric(),String=character(),stringsAsFactors=FALSE)
+    row <- 1
+    for (i in fret) {
+        for (j in strings) {
+            frame[row,1]<-i
+            frame[row,2]<-j
+            row <- row + 1
+        }
+    }
+    frame$String<-factor(frame$String,levels=c('G(4th)','C(3rd)','E(2nd)','A(1st)'))
+    plot(Fret~String,data=frame[frame$Fret==0,],ylim=rev(c(0,7)),type='n')
+    #plot frets
+    for (i in 1:7) {
+        lines(Fret~String,data=frame[frame$Fret==i,],ylim=rev(c(0,7)),col='darkgrey')
+    }
+    #plot 4 strings
+    for (i in (1:4)) {
+        abline(v=frame$String[i],lwd=3)
+    }
+    #plot one chord
+    chords <- read.delim("~/Dropbox/Courses/DataScientist/DataProduct/CourseProject/uku_slidify/chords.txt")
+    chords$Chords<-paste(chords$key,chords$var,sep='')
+    chords$String<-factor(chords$String,levels=c('G(4th)','C(3rd)','E(2nd)','A(1st)'))
+    subset<-chords[chords$Chords==yourChord,]
+    points(Fret1~String, data=chords[chords$Chords==yourChord,],pch=19,col='brown1',cex=3)
+    points(Fret2~String, data=chords[chords$Chords==yourChord,],pch=19,col='brown1',cex=3)
+    for (i in 1:4) {
+        points(Fret1~String, data=subset[i,],pch=as.character(subset$Finger1[i]),col='white',cex=1.1)
+    }
+    for (i in 1:4) {
+        points(Fret2~String, data=subset[i,],pch=as.character(subset$Finger2[i]),col='white',cex=1.1)
+    }
+}
+plotChord('Cmaj')
+```
+
+---
+## uku chords
+
+In uku chords you can select the chord you want by selecting the key and the variation.  
+
+Show a screenshot
+
+---
+
+## Bar chords
+The numbers in the circles are fingering suggestings. 1 is for the index finger, 2 is for the middle finger, etc. So for the chord below (Fm7), it's not suggesting that you have 3 index fingers but pressing your index finger on the first fret to form a bar. This is the hardest chord you can get by the way. Enjoy!
+
+```{r echo=FALSE}
+plotChord('Fm7')
+```
+
+
